@@ -35,5 +35,5 @@ jobs:
       - name: deployeb
         run: |
           eb init -i myapp -k assignment-02-kp -p Docker --region us-east-1
-          eb deploy Myapp-env-1 --version myapp-v7
+          eb deploy Myapp-env-2 --version myapp-v7
 
