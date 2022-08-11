@@ -16,14 +16,17 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
+      - name: zipproject
+        run: |
+          zip -r website.zip *
+
       - name: copytos3
         run: |
-          curl https://www.free-css.com/assets/files/free-css-templates/download/page281/dotnet.zip -o website.zip
           aws s3 cp website.zip s3://someabeylarkey/website.zip --region us-east-1
 
       - name: createapp
         run: |
-          aws elasticbeanstalk create-application-version --application-name myapp --version-label myapp-v4 --region us-east-1 --source-bundle S3Bucket=someabeylarkey,S3Key=website.zip --auto-create-application
+          aws elasticbeanstalk create-application-version --application-name myapp --version-label myapp-v5 --region us-east-1 --source-bundle S3Bucket=someabeylarkey,S3Key=website.zip --auto-create-application
 
       - name: installeb
         run: |
@@ -31,7 +34,7 @@ jobs:
 
       - name: deployeb
         run: |
-          eb init -i myapp -k assignment-02-kp -p Docker --region us-east-1
-          eb deploy Myapp-env --version myapp-v4
+          eb init -i myapp -k assignment-02-kp -p Node.js --region us-east-1
+          eb deploy Myapp-env-1 --version myapp-v5
 
 
