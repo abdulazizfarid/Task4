@@ -25,6 +25,10 @@ jobs:
         run: |
           aws elasticbeanstalk create-application-version --application-name myapp --version-label myapp-v1 --region us-east-1 --source-bundle S3Bucket=someabeylarkey,S3Key=website.zip --auto-create-application
 
+      - name: installeb
+        run: |
+          pip install awsebcli --upgrade --user
+
       - name: deployeb
         run: |
           eb init -i myapp -k assignment-02-kp -p Docker --region us-east-1
