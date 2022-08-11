@@ -23,7 +23,7 @@ jobs:
 
       - name: createapp
         run: |
-          aws elasticbeanstalk create-application-version --application-name myapp --version-label myapp-v1 --region us-east-1 --source-bundle S3Bucket=someabeylarkey,S3Key=website.zip --auto-create-application
+          aws elasticbeanstalk create-application-version --application-name myapp --version-label myapp-v2 --region us-east-1 --source-bundle S3Bucket=someabeylarkey,S3Key=website.zip --auto-create-application
 
       - name: installeb
         run: |
@@ -32,5 +32,5 @@ jobs:
       - name: deployeb
         run: |
           eb init -i myapp -k assignment-02-kp -p Docker --region us-east-1
-          eb deploy myappenv --version myapp-v1
+          eb deploy myappenv --version myapp-v2
 
