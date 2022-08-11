@@ -6,8 +6,7 @@ jobs:
   doeverything:
     runs-on: ubuntu-latest
     steps:
-			- name: checkout
-				uses: actions/checkout@v3
+			uses: actions/checkout@v3
 
       - name: aws config
 				uses: aws-actions/configure-aws-credentials@v1
@@ -29,4 +28,3 @@ jobs:
   			run: |
   				eb init -i myapp -k assignment-02-kp -p Docker --region us-east-1
   				eb deploy myappenv --version myapp-v1
-
