@@ -1,0 +1,32 @@
+name: tempworkflow
+
+on: push
+
+jobs:
+  doeverything:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+				uses: actions/checkout@v3
+
+      - name: aws config
+				uses: aws-actions/configure-aws-credentials@v1
+				with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: copytos3
+				run: |
+	  			curl https://www.free-css.com/assets/files/free-css-templates/download/page281/dotnet.zip -o website.zip
+	  			aws s3 cp website.zip s3://someabeylarkey/website.zip --region us-east-1
+
+      - name: createapp
+				run: |
+	  			aws elasticbeanstalk create-application-version --application-name myapp --version-label myapp-v1 --region us-east-1 --source-bundle S3Bucket=someabeylarkey,S3Key=website.zip --auto-create-application
+	  			
+  		- name: deployeb
+  			run: |
+  				eb init -i myapp -k assignment-02-kp -p Docker --region us-east-1
+  				eb deploy myappenv --version myapp-v1
+
